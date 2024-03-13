@@ -4,42 +4,10 @@ type Props = {
     formData: any;
     handleChange: any;
     goToNextStep: any
-    setErrors: any;
 };
 
 
-const BusinessOwnerDetailsSection = ({ formData, handleChange, goToNextStep, setErrors }: Props) => {
-
-    const validateSection = () => {
-        const newErrors: { [key: string]: string } = {};
-
-        // Validate the fields in this section
-        if (!formData.applicantCitizenship) {
-            newErrors.applicantCitizenship = 'Please select your citizenship.';
-        }
-
-        if (formData.applicantCitizenship === 'Rwandan' && !formData.idNumber) {
-            newErrors.idNumber = 'Please enter your identification document number.';
-        }
-
-        if (formData.applicantCitizenship === 'Foreigner' && !formData.passportNumber) {
-            newErrors.passportNumber = 'Please enter your passport number.';
-        }
-
-        if (!formData.otherNames) {
-            newErrors.otherNames = 'Please enter your other names.';
-        }
-
-        setErrors(newErrors);
-
-        return Object.keys(newErrors).length === 0;
-    };
-
-    const handleNextStep = () => {
-        if (validateSection()) {
-            goToNextStep();
-        }
-    };
+const BusinessOwnerDetailsSection = ({ formData, handleChange }: Props) => {
 
     return (
         <div className="mb-4 border border-[#0163cf] rounded-md w-full h-[550px]">
@@ -187,13 +155,6 @@ const BusinessOwnerDetailsSection = ({ formData, handleChange, goToNextStep, set
                     />
                 </div>
             </div>
-            {/* <button
-    type="button"
-    onClick={handleNextStep}
-    className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-  >
-    Next
-  </button> */}
         </div>
     );
 };

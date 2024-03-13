@@ -6,6 +6,7 @@ import Stepper from './Stepper';
 import emailjs from '@emailjs/browser';
 import Loader from "./Loader"
 import { toast } from 'react-toastify';
+import { validateSection } from "../util/validate"
 
 const ImportForm = () => {
 
@@ -49,8 +50,9 @@ const ImportForm = () => {
         const templateParams = {
             from_name: `${formData.otherNames} ${formData.surname}`,
             to_name: 'Import Service',
+            to_email: formData.email,
             reply_to: formData.email,
-            ...formData,
+            message: JSON.stringify(formData),
         };
 
         emailjs
@@ -73,7 +75,14 @@ const ImportForm = () => {
     };
 
     const goToNextStep = () => {
-        setCurrentStep((prevStep) => prevStep + 1);
+        const errors = validateSection(currentStep, formData);
+        if (errors.length > 0) {
+            setErrors(errors);
+
+        } else {
+            setCurrentStep((prevStep) => prevStep + 1);
+            setErrors([]);
+        }
     };
 
     const goToPreviousStep = () => {
@@ -87,17 +96,17 @@ const ImportForm = () => {
                 <Stepper steps={[1, 2, 3]} currentStep={currentStep} />
             </div>
             <div>
-                <p className='text-red-500 my-2'>{errors.length > 0 ? errors : null}</p>
+                <p className='text-red-500 my-2'>{errors.length > 0 ? errors[0] : null}</p>
             </div>
             <div className="w-full h-full ">
                 {currentStep === 1 && (
-                    <BusinessOwnerDetailsSection formData={formData} handleChange={handleChange} goToNextStep={goToNextStep} setErrors={setErrors} />
+                    <BusinessOwnerDetailsSection formData={formData} handleChange={handleChange} goToNextStep={goToNextStep} />
                 )}
                 {currentStep === 2 && (
-                    <BusinessDetailsSection formData={formData} handleChange={handleChange} setErrors={setErrors} />
+                    <BusinessDetailsSection formData={formData} handleChange={handleChange} />
                 )}
                 {currentStep === 3 && (
-                    <ProductInformationSection formData={formData} handleChange={handleChange} setErrors={setErrors} />
+                    <ProductInformationSection formData={formData} handleChange={handleChange} />
                 )}
             </div>
 

@@ -3,10 +3,9 @@
 type Props = {
     formData: any;
     handleChange: any;
-    setErrors: any;
 };
 
-function BusinessDetailsSection({ formData, handleChange, setErrors }: Props) {
+function BusinessDetailsSection({ formData, handleChange }: Props) {
     return (
         <div className="mb-4 border border-[#0163cf] rounded-md ">
             <div className='w-full bg-[#dfedf9] rounded-t-md'>
