@@ -4,11 +4,13 @@ import BusinessOwnerDetailsSection from './BusinessOwnerDetails';
 import ProductInformationSection from './ProductInformationSection';
 import Stepper from './Stepper';
 import emailjs from '@emailjs/browser';
+import Loader from "./Loader"
+import { toast } from 'react-toastify';
 
 const ImportForm = () => {
 
-    const [errors, setErrors] = useState<{ [key: string]: string }>({});
-
+    const [errors, setErrors] = useState<string[]>([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [formData, setFormData] = useState({
         applicantCitizenship: '',
         idNumber: '',
@@ -43,6 +45,7 @@ const ImportForm = () => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
+        setIsSubmitting(true);
         const templateParams = {
             from_name: `${formData.otherNames} ${formData.surname}`,
             to_name: 'Import Service',
@@ -57,10 +60,14 @@ const ImportForm = () => {
             })
             .then(
                 () => {
+                    toast.success('Form submitted successfully');
                     console.log('SUCCESS!');
+                    setIsSubmitting(false);
                 },
                 (error) => {
+                    toast.error('Form submission failed');
                     console.log('FAILED...', error);
+                    setIsSubmitting(false);
                 },
             );
     };
@@ -78,6 +85,9 @@ const ImportForm = () => {
             <div>
                 <h1 className="text-4xl font-bold text-center text-blue-500 my-4">RICA - Import permit</h1>
                 <Stepper steps={[1, 2, 3]} currentStep={currentStep} />
+            </div>
+            <div>
+                <p className='text-red-500 my-2'>{errors.length > 0 ? errors : null}</p>
             </div>
             <div className="w-full h-full ">
                 {currentStep === 1 && (
@@ -115,7 +125,7 @@ const ImportForm = () => {
                         type="submit"
                         className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600"
                     >
-                        Submit
+                        {isSubmitting ? <Loader /> : 'Submit'}
                     </button>
                 )}
             </div>
