@@ -3,9 +3,12 @@ import BusinessDetailsSection from './BusinessDetailsSection';
 import BusinessOwnerDetailsSection from './BusinessOwnerDetails';
 import ProductInformationSection from './ProductInformationSection';
 import Stepper from './Stepper';
+import emailjs from '@emailjs/browser';
 
 const ImportForm = () => {
+
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
     const [formData, setFormData] = useState({
         applicantCitizenship: '',
         idNumber: '',
@@ -40,18 +43,33 @@ const ImportForm = () => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        // Handle form submission
-        console.log(formData);
+        const templateParams = {
+            from_name: `${formData.otherNames} ${formData.surname}`,
+            to_name: 'Import Service',
+            reply_to: formData.email,
+            ...formData,
+        };
+
+        emailjs
+            // @ts-ignore
+            .send('service_tuqhlyx', 'template_7m8q64b', templateParams, {
+                publicKey: '7wLQI6pVMGQte0ElZ',
+            })
+            .then(
+                () => {
+                    console.log('SUCCESS!');
+                },
+                (error) => {
+                    console.log('FAILED...', error);
+                },
+            );
     };
 
     const goToNextStep = () => {
-        // Validate the current step before proceeding
-        // If validation passes, increment the current step
         setCurrentStep((prevStep) => prevStep + 1);
     };
 
     const goToPreviousStep = () => {
-        // Decrement the current step
         setCurrentStep((prevStep) => prevStep - 1);
     };
 
@@ -63,13 +81,13 @@ const ImportForm = () => {
             </div>
             <div className="w-full h-full ">
                 {currentStep === 1 && (
-                    <BusinessOwnerDetailsSection formData={formData} handleChange={handleChange} goToNextStep={goToNextStep} />
+                    <BusinessOwnerDetailsSection formData={formData} handleChange={handleChange} goToNextStep={goToNextStep} setErrors={setErrors} />
                 )}
                 {currentStep === 2 && (
-                    <BusinessDetailsSection formData={formData} handleChange={handleChange} />
+                    <BusinessDetailsSection formData={formData} handleChange={handleChange} setErrors={setErrors} />
                 )}
                 {currentStep === 3 && (
-                    <ProductInformationSection formData={formData} handleChange={handleChange} />
+                    <ProductInformationSection formData={formData} handleChange={handleChange} setErrors={setErrors} />
                 )}
             </div>
 

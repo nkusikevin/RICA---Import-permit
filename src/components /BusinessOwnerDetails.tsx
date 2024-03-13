@@ -1,16 +1,14 @@
-import { useState } from 'react'
+
 
 type Props = {
     formData: any;
     handleChange: any;
     goToNextStep: any
+    setErrors: any;
 };
 
 
-const BusinessOwnerDetailsSection = ({ formData, handleChange, goToNextStep }: Props) => {
-
-
-    const [errors, setErrors] = useState<{ [key: string]: string }>({});
+const BusinessOwnerDetailsSection = ({ formData, handleChange, goToNextStep, setErrors }: Props) => {
 
     const validateSection = () => {
         const newErrors: { [key: string]: string } = {};

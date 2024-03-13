@@ -3,9 +3,10 @@ import React from 'react'
 type Props = {
     formData: any;
     handleChange: any;
+    setErrors: any;
 };
 
-function ProductInformationSection({ formData, handleChange }: Props) {
+function ProductInformationSection({ formData, handleChange, setErrors }: Props) {
     return (
 
         <div className="mb-4 border border-[#0163cf] rounded-md w-full h-[550px]">
