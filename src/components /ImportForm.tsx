@@ -57,8 +57,8 @@ const ImportForm = () => {
 
         emailjs
             // @ts-ignore
-            .send('service_tuqhlyx', 'template_7m8q64b', templateParams, {
-                publicKey: '7wLQI6pVMGQte0ElZ',
+            .send(import.meta.env.SERVICE_ID, import.meta.env.TEMPLATE_ID, templateParams, {
+                publicKey: import.meta.env.PUBLIC_KEY,
             })
             .then(
                 () => {
