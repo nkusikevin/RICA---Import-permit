@@ -1,6 +1,6 @@
 
 type StepperProps = {
-    steps: any[];
+    steps: number[];
     currentStep: number;
 };
 

@@ -2,8 +2,8 @@
 
 type Props = {
     formData: any;
-    handleChange: any;
-    goToNextStep: any
+    handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
+    goToNextStep: () => void;
 };
 
 

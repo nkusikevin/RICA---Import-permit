@@ -2,7 +2,7 @@
 
 type Props = {
     formData: any;
-    handleChange: any;
+    handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
 };
 
 function BusinessDetailsSection({ formData, handleChange }: Props) {

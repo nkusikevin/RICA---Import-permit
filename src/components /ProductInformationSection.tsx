@@ -1,6 +1,10 @@
 type Props = {
     formData: any;
-    handleChange: any;
+    /**
+     * Handles the change event.
+     * @param event - The event object.
+     */
+    handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
 };
 
 function ProductInformationSection({ formData, handleChange }: Props) {
